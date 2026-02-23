@@ -1,0 +1,1274 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keryan TETARD - Expert en Cybersécurité et Cloud</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='g' cx='35%' cy='35%'><stop offset='0%' stop-color='%23eeaeca'/><stop offset='100%' stop-color='%232d1b4e'/></radialGradient></defs><ellipse cx='50' cy='50' rx='48' ry='12' fill='none' stroke='%2394bbe9' stroke-width='4' opacity='0.7' transform='rotate(-25 50 50)'/><circle cx='50' cy='50' r='30' fill='url(%23g)'/></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pink: #eeaeca;
+        --blue: #94bbe9;
+        --deep-purple: #2d1b4e;
+        --dark: #0a0a0f;
+        --darker: #050508;
+        --glass: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.06);
+        --text: #e8e4f0;
+        --text-muted: #8b85a0;
+        --gradient: linear-gradient(135deg, var(--pink) 0%, var(--blue) 100%);
+        --gradient-text: linear-gradient(
+          90deg,
+          var(--pink) 0%,
+          var(--blue) 100%
+        );
+      }
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        scrollbar-width: thin;
+        scrollbar-color: var(--pink) var(--dark);
+      }
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: var(--darker);
+        color: var(--text);
+        overflow-x: hidden;
+        line-height: 1.7;
+      }
+      ::selection {
+        background: var(--pink);
+        color: var(--dark);
+      }
+      #stars-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        pointer-events: none;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1.5rem 3rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      nav.scrolled {
+        padding: 0.8rem 3rem;
+        background: rgba(5, 5, 8, 0.85);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--glass-border);
+      }
+      .nav-logo {
+        font-family: "Syne", sans-serif;
+        font-size: 1.8rem;
+        font-weight: 800;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 400;
+        letter-spacing: 0.03em;
+        transition: color 0.3s ease;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--gradient);
+        transition: width 0.3s ease;
+      }
+      .nav-links a:hover {
+        color: var(--text);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+      .nav-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 101;
+      }
+      .nav-toggle span {
+        width: 28px;
+        height: 2px;
+        background: var(--text);
+        transition: all 0.3s ease;
+      }
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        z-index: 1;
+      }
+      .hero-content {
+        text-align: center;
+        max-width: 900px;
+      }
+      .hero-label {
+        display: inline-block;
+        padding: 0.4rem 1.2rem;
+        border: 1px solid var(--glass-border);
+        border-radius: 100px;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        background: var(--glass);
+        backdrop-filter: blur(10px);
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: 0.2s;
+      }
+      .hero h1 {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: 0.4s;
+      }
+      .hero h1 .gradient-text {
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-subtitle {
+        font-size: 1.15rem;
+        color: var(--text-muted);
+        max-width: 550px;
+        margin: 0 auto 2.5rem;
+        font-weight: 300;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: 0.6s;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: 0.8s;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 2rem;
+        background: var(--gradient);
+        color: var(--dark);
+        font-weight: 600;
+        font-size: 0.95rem;
+        border-radius: 100px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 40px rgba(238, 174, 202, 0.25);
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.85rem 2rem;
+        background: transparent;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 0.95rem;
+        border-radius: 100px;
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+      .btn-outline:hover {
+        border-color: var(--pink);
+        background: rgba(238, 174, 202, 0.05);
+      }
+      .hero-planet {
+        position: absolute;
+        right: -5%;
+        top: 15%;
+        width: 45vw;
+        max-width: 600px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background:
+          radial-gradient(ellipse at 30% 40%, var(--pink) 0%, transparent 60%),
+          radial-gradient(ellipse at 70% 60%, var(--blue) 0%, transparent 60%),
+          radial-gradient(
+            ellipse at 50% 50%,
+            var(--deep-purple) 0%,
+            transparent 80%
+          );
+        filter: blur(0px);
+        opacity: 0.35;
+        animation:
+          planetFloat 20s ease-in-out infinite,
+          planetRotate 60s linear infinite;
+        z-index: -1;
+      }
+      @keyframes planetFloat {
+        0%,
+        100% {
+          transform: translate(0, 0);
+        }
+        25% {
+          transform: translate(-15px, 20px);
+        }
+        50% {
+          transform: translate(10px, -15px);
+        }
+        75% {
+          transform: translate(-10px, -10px);
+        }
+      }
+      @keyframes planetRotate {
+        from {
+          filter: hue-rotate(0deg);
+        }
+        to {
+          filter: hue-rotate(360deg);
+        }
+      }
+      .scroll-indicator {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        opacity: 0;
+        animation: fadeUp 0.8s ease forwards;
+        animation-delay: 1.2s;
+      }
+      .scroll-indicator span {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+      .scroll-line {
+        width: 1px;
+        height: 40px;
+        background: var(--gradient);
+        animation: scrollPulse 2s ease-in-out infinite;
+      }
+      @keyframes scrollPulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scaleY(1);
+        }
+        50% {
+          opacity: 0.3;
+          transform: scaleY(0.5);
+        }
+      }
+      section {
+        position: relative;
+        z-index: 1;
+        padding: 8rem 3rem;
+      }
+      .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .section-label {
+        display: inline-block;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+        padding: 0.3rem 1rem;
+        border: 1px solid var(--glass-border);
+        border-radius: 100px;
+        background: var(--glass);
+      }
+      .section-title {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 1rem;
+        line-height: 1.15;
+      }
+      .section-subtitle {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        max-width: 550px;
+        font-weight: 300;
+        margin-bottom: 3rem;
+      }
+      .reveal {
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+      }
+      .about-text p {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        margin-bottom: 1.5rem;
+        font-weight: 300;
+      }
+      .about-stats {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+      }
+      .stat-card {
+        padding: 1.8rem;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        transition: all 0.4s ease;
+      }
+      .stat-card:hover {
+        border-color: rgba(238, 174, 202, 0.2);
+        background: rgba(238, 174, 202, 0.03);
+        transform: translateY(-4px);
+      }
+      .stat-number {
+        font-family: "Syne", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        line-height: 1;
+        margin-bottom: 0.3rem;
+      }
+      .stat-label {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.5rem;
+      }
+      .skill-card {
+        padding: 2rem;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      .skill-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--gradient);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+      .skill-card:hover {
+        border-color: rgba(238, 174, 202, 0.15);
+        transform: translateY(-6px);
+      }
+      .skill-card:hover::before {
+        opacity: 1;
+      }
+      .skill-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(238, 174, 202, 0.1),
+          rgba(148, 187, 233, 0.1)
+        );
+        margin-bottom: 1.2rem;
+        font-size: 1.5rem;
+      }
+      .skill-card h3 {
+        font-family: "Syne", sans-serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 0.6rem;
+      }
+      .skill-card p {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 300;
+        line-height: 1.6;
+      }
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1rem;
+      }
+      .skill-tag {
+        padding: 0.25rem 0.7rem;
+        font-size: 0.72rem;
+        border-radius: 100px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: var(--text-muted);
+      }
+      .timeline {
+        position: relative;
+        padding-left: 3rem;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          var(--pink),
+          var(--blue),
+          transparent
+        );
+      }
+      .timeline-item {
+        position: relative;
+        margin-bottom: 3.5rem;
+        padding-left: 1rem;
+      }
+      .timeline-item::before {
+        content: "";
+        position: absolute;
+        left: -3.35rem;
+        top: 0.4rem;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--gradient);
+        box-shadow: 0 0 20px rgba(238, 174, 202, 0.4);
+      }
+      .timeline-date {
+        font-size: 0.8rem;
+        color: var(--pink);
+        letter-spacing: 0.05em;
+        margin-bottom: 0.4rem;
+        font-weight: 500;
+      }
+      .timeline-item h3 {
+        font-family: "Syne", sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+      }
+      .timeline-item h4 {
+        font-size: 0.95rem;
+        color: var(--text-muted);
+        font-weight: 400;
+        margin-bottom: 0.6rem;
+      }
+      .timeline-item p {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        font-weight: 300;
+        max-width: 550px;
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+      .project-card {
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 2.5rem;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+      .project-card::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 24px;
+        background: radial-gradient(
+          ellipse at var(--mouse-x, 50%) var(--mouse-y, 50%),
+          rgba(238, 174, 202, 0.06) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+      }
+      .project-card:hover::after {
+        opacity: 1;
+      }
+      .project-card:hover {
+        border-color: rgba(238, 174, 202, 0.15);
+        transform: translateY(-6px);
+      }
+      .project-number {
+        font-family: "Syne", sans-serif;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 1rem;
+        letter-spacing: 0.1em;
+      }
+      .project-card h3 {
+        font-family: "Syne", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 0.6rem;
+      }
+      .project-card p {
+        color: var(--text-muted);
+        font-size: 0.92rem;
+        font-weight: 300;
+        margin-bottom: 1.2rem;
+        line-height: 1.7;
+      }
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .project-tech span {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.72rem;
+        border-radius: 100px;
+        background: rgba(148, 187, 233, 0.08);
+        border: 1px solid rgba(148, 187, 233, 0.15);
+        color: var(--blue);
+      }
+      .certs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.2rem;
+      }
+      .cert-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.3rem 1.5rem;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        transition: all 0.3s ease;
+      }
+      .cert-card:hover {
+        border-color: rgba(238, 174, 202, 0.15);
+        transform: translateX(6px);
+      }
+      .cert-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: linear-gradient(
+          135deg,
+          rgba(238, 174, 202, 0.15),
+          rgba(148, 187, 233, 0.15)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+      }
+      .cert-info h4 {
+        font-family: "Syne", sans-serif;
+        font-size: 0.95rem;
+        font-weight: 600;
+      }
+      .cert-info span {
+        color: var(--text-muted);
+        font-size: 0.78rem;
+      }
+      #contact {
+        text-align: center;
+      }
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 1.2rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+      }
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 1rem 1.8rem;
+        background: var(--glass);
+        border: 1px solid var(--glass-border);
+        border-radius: 100px;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.92rem;
+        transition: all 0.3s ease;
+      }
+      .contact-link:hover {
+        border-color: var(--pink);
+        background: rgba(238, 174, 202, 0.05);
+        transform: translateY(-3px);
+      }
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 2rem;
+        border-top: 1px solid var(--glass-border);
+        color: var(--text-muted);
+        font-size: 0.8rem;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .glow-divider {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--pink),
+          var(--blue),
+          transparent
+        );
+        opacity: 0.2;
+        margin: 0 auto;
+      }
+      @media (max-width: 1024px) {
+        .skills-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 768px) {
+        section {
+          padding: 5rem 1.5rem;
+        }
+        nav {
+          padding: 1rem 1.5rem;
+        }
+        .nav-links {
+          display: none;
+        }
+        .nav-toggle {
+          display: flex;
+        }
+        .nav-links.open {
+          display: flex;
+          flex-direction: column;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(5, 5, 8, 0.97);
+          backdrop-filter: blur(30px);
+          justify-content: center;
+          align-items: center;
+          gap: 2rem;
+          z-index: 100;
+        }
+        .nav-links.open a {
+          font-size: 1.5rem;
+          color: var(--text);
+        }
+        .hero-planet {
+          width: 80vw;
+          right: -20%;
+          top: 5%;
+          opacity: 0.2;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+        .skills-grid {
+          grid-template-columns: 1fr;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero h1 {
+          font-size: clamp(2.5rem, 10vw, 4rem);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="stars-canvas"></canvas>
+    <nav id="navbar">
+      <a href="#" class="nav-logo">KT</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" onclick="closeNav()">À propos</a></li>
+        <li><a href="#skills" onclick="closeNav()">Expertise</a></li>
+        <li><a href="#experience" onclick="closeNav()">Parcours</a></li>
+        <li><a href="#projects" onclick="closeNav()">Projets</a></li>
+        <li><a href="#contact" onclick="closeNav()">Contact</a></li>
+      </ul>
+      <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+    <section class="hero">
+      <div class="hero-planet"></div>
+      <div class="hero-content">
+        <div class="hero-label">🔐 Expert Cybersécurité</div>
+        <h1>
+          Keryan<br />
+          <span class="gradient-text">Tetard</span>
+        </h1>
+        <p class="hero-subtitle">
+          Alternant Administrateur Cybersécurité & Réseau · Mastère IPSSI Paris
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn-primary">Me contacter ↗</a>
+          <a href="#projects" class="btn-outline">Voir mes projets</a>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+    <div class="glow-divider"></div>
+    <section id="about">
+      <div class="section-container">
+        <div class="about-grid">
+          <div class="about-text reveal">
+            <span class="section-label">01 — À propos</span>
+            <h2 class="section-title">
+              Curieux par nature,<br />hacker par passion
+            </h2>
+            <p>
+              Alternant Administrateur Cybersécurité & Réseau chez
+              <strong style="color: var(--text)">Tounett</strong>, je prépare un
+              Mastère à l'IPSSI Paris. Tout a commencé par une obsession simple
+              : comprendre comment les systèmes peuvent être compromis — et
+              comment les en protéger.
+            </p>
+            <p>
+              En dehors de l'alternance, je me forme en continu sur
+              <strong style="color: var(--text)">TryHackMe</strong> (Pre
+              Security, Blue, Network Fundamentals), je construis mes propres
+              outils — Yggdrasil, Waver — et j'explore des sujets comme le
+              reverse engineering IoT ou l'automatisation cloud. Pour moi, la
+              meilleure façon d'apprendre reste de créer et de casser.
+            </p>
+          </div>
+          <div class="about-stats reveal" style="transition-delay: 0.2s">
+            <div class="stat-card">
+              <div class="stat-number">2+</div>
+              <div class="stat-label">Ans en alternance</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Certifications obtenues</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">4+</div>
+              <div class="stat-label">Projets personnels</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">∞</div>
+              <div class="stat-label">Curiosité</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="glow-divider"></div>
+    <section id="skills">
+      <div class="section-container">
+        <span class="section-label reveal">02 — Expertise</span>
+        <h2 class="section-title reveal">Domaines de compétences</h2>
+        <p class="section-subtitle reveal">
+          De l'attaque à la défense, une vision à 360° de la cybersécurité.
+        </p>
+        <div class="skills-grid">
+          <div class="skill-card reveal">
+            <div class="skill-icon">🎯</div>
+            <h3>Sécurité & Réseau</h3>
+            <p>
+              Durcissement de pare-feux SonicWall, filtrage réseau, VPN SSL,
+              gestion des incidents et réponse aux crises.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">SonicWall</span>
+              <span class="skill-tag">Burp Suite</span>
+              <span class="skill-tag">Wireshark</span>
+              <span class="skill-tag">Nmap</span>
+              <span class="skill-tag">Kali Linux</span>
+            </div>
+          </div>
+          <div class="skill-card reveal" style="transition-delay: 0.1s">
+            <div class="skill-icon">🛡️</div>
+            <h3>Administration Système</h3>
+            <p>
+              Déploiement complet d'Active Directory, GPO, DNS, DHCP, gestion
+              des identités et des accès.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">Active Directory</span>
+              <span class="skill-tag">GPO</span>
+              <span class="skill-tag">DNS / DHCP</span>
+              <span class="skill-tag">PCA / PRA</span>
+            </div>
+          </div>
+          <div class="skill-card reveal" style="transition-delay: 0.2s">
+            <div class="skill-icon">☁️</div>
+            <h3>Cloud & Infra</h3>
+            <p>
+              Déploiement et sécurisation d'environnements multi-cloud,
+              infrastructure as code.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">AWS</span>
+              <span class="skill-tag">Azure</span>
+              <span class="skill-tag">OVHcloud</span>
+              <span class="skill-tag">Oracle OCI</span>
+              <span class="skill-tag">Terraform</span>
+            </div>
+          </div>
+          <div class="skill-card reveal" style="transition-delay: 0.3s">
+            <div class="skill-icon">💻</div>
+            <h3>Développement & Scripting</h3>
+            <p>
+              Création d'outils offensifs et défensifs, automatisation,
+              développement web full stack.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Bash</span>
+              <span class="skill-tag">PHP</span>
+              <span class="skill-tag">C#</span>
+              <span class="skill-tag">HTML / CSS</span>
+            </div>
+          </div>
+          <div class="skill-card reveal" style="transition-delay: 0.4s">
+            <div class="skill-icon">🔍</div>
+            <h3>OSINT & Analyse</h3>
+            <p>
+              Recherche de renseignements en sources ouvertes, veille cyber,
+              threat intelligence.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">OSINT</span>
+              <span class="skill-tag">Shodan</span>
+              <span class="skill-tag">Veille cyber</span>
+              <span class="skill-tag">Recon</span>
+            </div>
+          </div>
+          <div class="skill-card reveal" style="transition-delay: 0.5s">
+            <div class="skill-icon">🐳</div>
+            <h3>Virtualisation & DevOps</h3>
+            <p>
+              Conteneurisation, environnements isolés, gestion de versions et
+              collaboration.
+            </p>
+            <div class="skill-tags">
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">Kali</span>
+              <span class="skill-tag">Git</span>
+              <span class="skill-tag">MySQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="glow-divider"></div>
+    <section id="experience">
+      <div class="section-container">
+        <span class="section-label reveal">03 — Parcours</span>
+        <h2 class="section-title reveal">Expériences & Formation</h2>
+        <p class="section-subtitle reveal">
+          Un parcours construit autour de la passion pour la cybersécurité.
+        </p>
+        <div class="timeline">
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2024 — 2026</div>
+            <h3>Mastère Cybersécurité option Cloud</h3>
+            <h4>IPSSI Paris</h4>
+            <p>
+              Formation de niveau Bac+5 axée sur la cybersécurité avancée, la
+              sécurisation d'architectures cloud et la gestion des risques.
+            </p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Sept. 2023 — Oct. 2026</div>
+            <h3>Alternant — Technicien Cybersécurité & Réseau</h3>
+            <h4>Tounett · Vert-Saint-Denis</h4>
+            <p>
+              Mise en place de PCA/PRA, administration et création d'Active
+              Directory, durcissement de pare-feux SonicWall, gestion de crises
+              et d'incidents, VPN SSL, filtrage web, sensibilisation cyber
+              (Newsletter), support informatique.
+            </p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2023 — 2024</div>
+            <h3>L3 Informatique option Cybersécurité</h3>
+            <h4>Institution Saint Aspais · Melun</h4>
+            <p>
+              Approfondissement en sécurité des systèmes d'information, réseaux
+              et architecture sécurisée.
+            </p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">Août — Sept. 2023</div>
+            <h3>Freelance — Développeur Front-end</h3>
+            <h4>Combs Volley Ball · Combs-la-Ville</h4>
+            <p>
+              Création d'un site vitrine et refonte totale de la direction
+              artistique du club de volley de Combs-la-Ville.
+            </p>
+          </div>
+          <div class="timeline-item reveal">
+            <div class="timeline-date">2022 — 2023</div>
+            <h3>BTS SIO option SLAM</h3>
+            <h4>Institution Saint Aspais · Melun</h4>
+            <p>
+              Formation en développement logiciel, réseaux et bases de la
+              cybersécurité. Stage développeur web full stack : création d'une
+              application PHP de gestion de passage avec base de données
+              relationnelle.
+            </p>
+          </div>
+        </div>
+        <div style="margin-top: 4rem">
+          <h3
+            class="section-title reveal"
+            style="font-size: 1.6rem; margin-bottom: 1.5rem"
+          >
+            Certifications
+          </h3>
+          <div class="certs-grid">
+            <div class="cert-card reveal">
+              <div class="cert-icon">🏆</div>
+              <div class="cert-info">
+                <h4>CCNA 2</h4>
+                <span>Cisco</span>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-icon">🏆</div>
+              <div class="cert-info">
+                <h4>MOOC SecNumacadémie</h4>
+                <span>ANSSI</span>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-icon">🏆</div>
+              <div class="cert-info">
+                <h4>Pre Security</h4>
+                <span>TryHackMe</span>
+              </div>
+            </div>
+            <div class="cert-card reveal">
+              <div class="cert-icon">🏆</div>
+              <div class="cert-info">
+                <h4>Network Fundamentals</h4>
+                <span>TryHackMe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="glow-divider"></div>
+    <section id="projects">
+      <div class="section-container">
+        <span class="section-label reveal">04 — Projets</span>
+        <h2 class="section-title reveal">Réalisations</h2>
+        <p class="section-subtitle reveal">
+          Quelques projets qui illustrent mon expertise.
+        </p>
+        <div class="projects-grid">
+          <div class="project-card reveal">
+            <div class="project-number">PROJET 01</div>
+            <h3>🌳 Yggdrasil</h3>
+            <p>
+              Gestionnaire de credentials PostgreSQL avec CLI colorée. Import
+              massif de millions de paires email:password, recherche
+              instantanée, déduplication automatique et statistiques d'import
+              détaillées. À des fins éducatives et de recherche uniquement.
+            </p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>PostgreSQL</span>
+              <span>CLI</span>
+            </div>
+            <a
+              href="https://github.com/0x94sd/Yggdrasil"
+              target="_blank"
+              style="
+                display: inline-block;
+                margin-top: 1.2rem;
+                font-size: 0.85rem;
+                color: var(--pink);
+                text-decoration: none;
+                letter-spacing: 0.05em;
+              "
+              >Voir sur GitHub →</a
+            >
+          </div>
+          <div class="project-card reveal" style="transition-delay: 0.1s">
+            <div class="project-number">PROJET 02</div>
+            <h3>🌊 Waver</h3>
+            <p>
+              Outil OSINT de recherche de pseudonymes sur 20+ plateformes en
+              simultané (réseaux sociaux, gaming, tech, médias). Barre de
+              progression en temps réel, export automatique des résultats,
+              gestion des timeouts et redirections.
+            </p>
+            <div class="project-tech">
+              <span>Python</span>
+              <span>OSINT</span>
+              <span>HTTPX</span>
+            </div>
+            <a
+              href="https://github.com/0x94sd/Waver"
+              target="_blank"
+              style="
+                display: inline-block;
+                margin-top: 1.2rem;
+                font-size: 0.85rem;
+                color: var(--pink);
+                text-decoration: none;
+                letter-spacing: 0.05em;
+              "
+              >Voir sur GitHub →</a
+            >
+          </div>
+          <div class="project-card reveal" style="transition-delay: 0.2s">
+            <div class="project-number">PROJET 03</div>
+            <h3>📸 Snapchat Memories Exporter</h3>
+            <p>
+              Architecture cloud complète : automatisation de l'extraction des
+              Snapchat Memories et déploiement d'une solution Immich pour la
+              centralisation sécurisée et la gestion des données personnelles.
+            </p>
+            <div class="project-tech">
+              <span>Cloud</span>
+              <span>Automatisation</span>
+              <span>Immich</span>
+            </div>
+          </div>
+          <div class="project-card reveal" style="transition-delay: 0.3s">
+            <div class="project-number">PROJET 04</div>
+            <h3>📷 Reverse Engineering IoT</h3>
+            <p>
+              Analyse technique et rétro-ingénierie d'une caméra IP domestique :
+              identification des protocoles de communication, extraction du
+              firmware et cartographie des surfaces d'attaque.
+            </p>
+            <div class="project-tech">
+              <span>Reverse Engineering</span>
+              <span>IoT</span>
+              <span>Firmware</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="glow-divider"></div>
+    <section id="contact">
+      <div class="section-container">
+        <span class="section-label reveal">05 — Contact</span>
+        <h2 class="section-title reveal">Travaillons ensemble</h2>
+        <p
+          class="section-subtitle reveal"
+          style="margin: 0 auto 2rem; text-align: center"
+        >
+          Besoin d'un audit, d'un accompagnement ou simplement d'échanger ?
+        </p>
+        <div class="contact-links reveal">
+          <a href="mailto:tetardkeryan.contact@gmail.com" class="contact-link"
+            >✉️ tetardkeryan.contact@gmail.com</a
+          >
+          <a
+            href="https://linkedin.com/in/ktetard"
+            class="contact-link"
+            target="_blank"
+            >💼 LinkedIn</a
+          >
+          <a
+            href="https://github.com/0x94sd"
+            class="contact-link"
+            target="_blank"
+            >🐙 GitHub</a
+          >
+        </div>
+      </div>
+    </section>
+    <footer>
+      <p>© 2026 Keryan Tetard - Tous droits réservés.</p>
+    </footer>
+    <script>
+      // ========== STAR FIELD ==========
+      const canvas = document.getElementById("stars-canvas");
+      const ctx = canvas.getContext("2d");
+      let stars = [];
+      const STAR_COUNT = 250;
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      function createStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.5 + 0.3,
+            opacity: Math.random() * 0.8 + 0.2,
+            twinkleSpeed: Math.random() * 0.02 + 0.005,
+            twinkleOffset: Math.random() * Math.PI * 2,
+          });
+        }
+      }
+      function drawStars(time) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        stars.forEach((star) => {
+          const opacity =
+            star.opacity *
+            (0.5 +
+              0.5 * Math.sin(time * star.twinkleSpeed + star.twinkleOffset));
+          const hue = Math.random() > 0.5 ? "340, 70%" : "215, 60%";
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `hsla(${Math.random() > 0.7 ? "340, 70%" : "215, 60%"}, 90%, ${opacity})`;
+          ctx.fill();
+        });
+        requestAnimationFrame(drawStars);
+      }
+      resizeCanvas();
+      createStars();
+      requestAnimationFrame(drawStars);
+      window.addEventListener("resize", () => {
+        resizeCanvas();
+        createStars();
+      });
+      // ========== NAV SCROLL ==========
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        navbar.classList.toggle("scrolled", window.scrollY > 50);
+      });
+      // ========== MOBILE NAV ==========
+      function toggleNav() {
+        document.getElementById("navLinks").classList.toggle("open");
+      }
+      function closeNav() {
+        document.getElementById("navLinks").classList.remove("open");
+      }
+      // ========== SCROLL REVEAL ==========
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      );
+      reveals.forEach((el) => observer.observe(el));
+      // ========== PROJECT CARD MOUSE FOLLOW ==========
+      document.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((e.clientX - rect.left) / rect.width) * 100;
+          const y = ((e.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty("--mouse-x", `${x}%`);
+          card.style.setProperty("--mouse-y", `${y}%`);
+        });
+      });
+    </script>
+  </body>
+</html>
