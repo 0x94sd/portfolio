@@ -461,6 +461,54 @@
         margin-bottom: 1.2rem;
         font-size: 1.5rem;
       }
+      .lucide-icon {
+        width: 24px;
+        height: 24px;
+        stroke-width: 1.75;
+        fill: none;
+        stroke: var(--pink);
+      }
+      .lucide-icon-sm {
+        width: 20px;
+        height: 20px;
+        stroke-width: 1.75;
+        fill: none;
+        stroke: var(--pink);
+      }
+      .contact-link .lucide-icon-sm {
+        stroke: var(--text);
+      }
+      .contact-link:hover .lucide-icon-sm {
+        stroke: var(--pink);
+      }
+      .skill-card:hover .lucide-icon,
+      .cert-card:hover .lucide-icon-sm {
+        animation: iconPulse 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .contact-link:hover .lucide-icon-sm {
+        animation: iconBounce 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @keyframes iconPulse {
+        0% { transform: scale(1) rotate(0deg); }
+        30% { transform: scale(1.2) rotate(-8deg); }
+        60% { transform: scale(1.1) rotate(4deg); }
+        100% { transform: scale(1) rotate(0deg); }
+      }
+      @keyframes iconBounce {
+        0% { transform: translateY(0); }
+        40% { transform: translateY(-4px); }
+        100% { transform: translateY(0); }
+      }
+      .reveal .lucide-icon path, .reveal .lucide-icon line, .reveal .lucide-icon polyline, .reveal .lucide-icon circle, .reveal .lucide-icon rect, .reveal .lucide-icon ellipse,
+      .reveal .lucide-icon-sm path, .reveal .lucide-icon-sm line, .reveal .lucide-icon-sm polyline, .reveal .lucide-icon-sm circle, .reveal .lucide-icon-sm rect, .reveal .lucide-icon-sm ellipse {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+        transition: stroke-dashoffset 1s ease;
+      }
+      .reveal.visible .lucide-icon path, .reveal.visible .lucide-icon line, .reveal.visible .lucide-icon polyline, .reveal.visible .lucide-icon circle, .reveal.visible .lucide-icon rect, .reveal.visible .lucide-icon ellipse,
+      .reveal.visible .lucide-icon-sm path, .reveal.visible .lucide-icon-sm line, .reveal.visible .lucide-icon-sm polyline, .reveal.visible .lucide-icon-sm circle, .reveal.visible .lucide-icon-sm rect, .reveal.visible .lucide-icon-sm ellipse {
+        stroke-dashoffset: 0;
+      }
       .skill-card h3 {
         font-family: "Syne", sans-serif;
         font-size: 1.2rem;
@@ -778,6 +826,14 @@
     </style>
   </head>
   <body>
+    <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+      <defs>
+        <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#EEAECA"/>
+          <stop offset="100%" stop-color="#94BBE9"/>
+        </linearGradient>
+      </defs>
+    </svg>
     <canvas id="stars-canvas"></canvas>
     <nav id="navbar">
       <a href="#" class="nav-logo">KT</a>
@@ -797,7 +853,7 @@
     <section class="hero">
       <div class="hero-planet"></div>
       <div class="hero-content">
-        <div class="hero-label">🔐 Expert Cybersécurité</div>
+        <div class="hero-label"><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/><circle cx="12" cy="16" r="1"/></svg>Expert Cybersécurité</div>
         <h1>
           Keryan<br />
           <span class="gradient-text">Tetard</span>
@@ -871,7 +927,7 @@
         </p>
         <div class="skills-grid">
           <div class="skill-card reveal">
-            <div class="skill-icon">🎯</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg></div>
             <h3>Sécurité & Réseau</h3>
             <p>
               Durcissement de pare-feux SonicWall, filtrage réseau, VPN SSL,
@@ -886,7 +942,7 @@
             </div>
           </div>
           <div class="skill-card reveal" style="transition-delay: 0.1s">
-            <div class="skill-icon">🛡️</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2"/><rect width="20" height="8" x="2" y="14" rx="2" ry="2"/><line x1="6" x2="6.01" y1="6" y2="6"/><line x1="6" x2="6.01" y1="18" y2="18"/></svg></div>
             <h3>Administration Système</h3>
             <p>
               Déploiement complet d'Active Directory, GPO, DNS, DHCP, gestion
@@ -900,7 +956,7 @@
             </div>
           </div>
           <div class="skill-card reveal" style="transition-delay: 0.2s">
-            <div class="skill-icon">☁️</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg></div>
             <h3>Cloud & Infra</h3>
             <p>
               Déploiement et sécurisation d'environnements multi-cloud,
@@ -915,7 +971,7 @@
             </div>
           </div>
           <div class="skill-card reveal" style="transition-delay: 0.3s">
-            <div class="skill-icon">💻</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></svg></div>
             <h3>Développement & Scripting</h3>
             <p>
               Création d'outils offensifs et défensifs, automatisation,
@@ -930,7 +986,7 @@
             </div>
           </div>
           <div class="skill-card reveal" style="transition-delay: 0.4s">
-            <div class="skill-icon">🔍</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg></div>
             <h3>OSINT & Analyse</h3>
             <p>
               Recherche de renseignements en sources ouvertes, veille cyber,
@@ -944,7 +1000,7 @@
             </div>
           </div>
           <div class="skill-card reveal" style="transition-delay: 0.5s">
-            <div class="skill-icon">🐳</div>
+            <div class="skill-icon"><svg class="lucide-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2.97 12.92A2 2 0 0 0 2 14.63v3.24a2 2 0 0 0 .97 1.71l3 1.8a2 2 0 0 0 2.06 0L12 19v-5.5l-5-3-4.03 2.42Z"/><path d="m7 16.5-4.74-2.85"/><path d="m7 16.5 5-3"/><path d="M7 16.5v5.17"/><path d="M12 13.5V19l3.97 2.38a2 2 0 0 0 2.06 0l3-1.8a2 2 0 0 0 .97-1.71v-3.24a2 2 0 0 0-.97-1.71L17 10.5l-5 3Z"/><path d="m17 16.5-5-3"/><path d="m17 16.5 4.74-2.85"/><path d="M17 16.5v5.17"/><path d="M7.97 4.42A2 2 0 0 0 7 6.13v4.37l5 3 5-3V6.13a2 2 0 0 0-.97-1.71l-3-1.8a2 2 0 0 0-2.06 0l-3 1.8Z"/><path d="M12 8 7.26 5.15"/><path d="m12 8 4.74-2.85"/><path d="M12 13.5V8"/></svg></div>
             <h3>Virtualisation & DevOps</h3>
             <p>
               Conteneurisation, environnements isolés, gestion de versions et
@@ -981,7 +1037,7 @@
           </div>
           <div class="timeline-item reveal">
             <div class="timeline-date">Sept. 2023 — Oct. 2026</div>
-            <h3>Alternant — Technicien Cybersécurité & Réseau</h3>
+            <h3>Alternant Administrateur Cybersécurité & Réseau</h3>
             <h4>Tounett · Vert-Saint-Denis</h4>
             <p>
               Mise en place de PCA/PRA, administration et création d'Active
@@ -992,7 +1048,7 @@
           </div>
           <div class="timeline-item reveal">
             <div class="timeline-date">2023 — 2024</div>
-            <h3>L3 Informatique option Cybersécurité</h3>
+            <h3>L3 Informatique option Cybersécurité et Réseaux</h3>
             <h4>Institution Saint Aspais · Melun</h4>
             <p>
               Approfondissement en sécurité des systèmes d'information, réseaux
@@ -1029,28 +1085,28 @@
           </h3>
           <div class="certs-grid">
             <div class="cert-card reveal">
-              <div class="cert-icon">🏆</div>
+              <div class="cert-icon"><svg class="lucide-icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
               <div class="cert-info">
                 <h4>CCNA 2</h4>
                 <span>Cisco</span>
               </div>
             </div>
             <div class="cert-card reveal">
-              <div class="cert-icon">🏆</div>
+              <div class="cert-icon"><svg class="lucide-icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
               <div class="cert-info">
                 <h4>MOOC SecNumacadémie</h4>
                 <span>ANSSI</span>
               </div>
             </div>
             <div class="cert-card reveal">
-              <div class="cert-icon">🏆</div>
+              <div class="cert-icon"><svg class="lucide-icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
               <div class="cert-info">
                 <h4>Pre Security</h4>
                 <span>TryHackMe</span>
               </div>
             </div>
             <div class="cert-card reveal">
-              <div class="cert-icon">🏆</div>
+              <div class="cert-icon"><svg class="lucide-icon-sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
               <div class="cert-info">
                 <h4>Network Fundamentals</h4>
                 <span>TryHackMe</span>
@@ -1071,7 +1127,7 @@
         <div class="projects-grid">
           <div class="project-card reveal">
             <div class="project-number">PROJET 01</div>
-            <h3>🌳 Yggdrasil</h3>
+            <h3><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>Yggdrasil</h3>
             <p>
               Gestionnaire de credentials PostgreSQL avec CLI colorée. Import
               massif de millions de paires email:password, recherche
@@ -1099,7 +1155,7 @@
           </div>
           <div class="project-card reveal" style="transition-delay: 0.1s">
             <div class="project-number">PROJET 02</div>
-            <h3>🌊 Waver</h3>
+            <h3><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34"/><path d="M4 6h.01"/><path d="M2.29 9.62A10 10 0 1 0 21.31 8.35"/><path d="M16.24 7.76A6 6 0 1 0 8.23 16.67"/><path d="M12 18h.01"/><path d="M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/></svg>Waver</h3>
             <p>
               Outil OSINT de recherche de pseudonymes sur 20+ plateformes en
               simultané (réseaux sociaux, gaming, tech, médias). Barre de
@@ -1127,7 +1183,7 @@
           </div>
           <div class="project-card reveal" style="transition-delay: 0.2s">
             <div class="project-number">PROJET 03</div>
-            <h3>📸 Snapchat Memories Exporter</h3>
+            <h3><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>Snapchat Memories Exporter</h3>
             <p>
               Architecture cloud complète : automatisation de l'extraction des
               Snapchat Memories et déploiement d'une solution Immich pour la
@@ -1141,7 +1197,7 @@
           </div>
           <div class="project-card reveal" style="transition-delay: 0.3s">
             <div class="project-number">PROJET 04</div>
-            <h3>📷 Reverse Engineering IoT</h3>
+            <h3><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;margin-right:6px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>Reverse Engineering IoT</h3>
             <p>
               Analyse technique et rétro-ingénierie d'une caméra IP domestique :
               identification des protocoles de communication, extraction du
@@ -1168,20 +1224,19 @@
           Besoin d'un audit, d'un accompagnement ou simplement d'échanger ?
         </p>
         <div class="contact-links reveal">
-          <a href="mailto:tetardkeryan.contact@gmail.com" class="contact-link"
-            >✉️ tetardkeryan.contact@gmail.com</a
+          <a href="mailto:ktetard@proton.me" class="contact-link"><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> ktetard@proton.me</a
           >
           <a
             href="https://linkedin.com/in/ktetard"
             class="contact-link"
             target="_blank"
-            >💼 LinkedIn</a
+            ><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg> LinkedIn</a
           >
           <a
             href="https://github.com/0x94sd"
             class="contact-link"
             target="_blank"
-            >🐙 GitHub</a
+            ><svg class="lucide-icon-sm" style="display:inline;vertical-align:middle;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg> GitHub</a
           >
         </div>
       </div>
@@ -1190,7 +1245,6 @@
       <p>© 2026 Keryan Tetard - Tous droits réservés.</p>
     </footer>
     <script>
-      // ========== STAR FIELD ==========
       const canvas = document.getElementById("stars-canvas");
       const ctx = canvas.getContext("2d");
       let stars = [];
@@ -1234,19 +1288,16 @@
         resizeCanvas();
         createStars();
       });
-      // ========== NAV SCROLL ==========
       const navbar = document.getElementById("navbar");
       window.addEventListener("scroll", () => {
         navbar.classList.toggle("scrolled", window.scrollY > 50);
       });
-      // ========== MOBILE NAV ==========
       function toggleNav() {
         document.getElementById("navLinks").classList.toggle("open");
       }
       function closeNav() {
         document.getElementById("navLinks").classList.remove("open");
       }
-      // ========== SCROLL REVEAL ==========
       const reveals = document.querySelectorAll(".reveal");
       const observer = new IntersectionObserver(
         (entries) => {
@@ -1259,14 +1310,13 @@
         { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
       );
       reveals.forEach((el) => observer.observe(el));
-      // ========== PROJECT CARD MOUSE FOLLOW ==========
       document.querySelectorAll(".project-card").forEach((card) => {
         card.addEventListener("mousemove", (e) => {
           const rect = card.getBoundingClientRect();
           const x = ((e.clientX - rect.left) / rect.width) * 100;
           const y = ((e.clientY - rect.top) / rect.height) * 100;
-          card.style.setProperty("--mouse-x", `${x}%`);
-          card.style.setProperty("--mouse-y", `${y}%`);
+          card.style.setProperty("--mouse-x", x + "%");
+          card.style.setProperty("--mouse-y", y + "%");
         });
       });
     </script>
